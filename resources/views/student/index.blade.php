@@ -2,13 +2,27 @@
 
     <x-slot:title>{{ $title }}</x-slot>
 
+    <a button class="btn btn-primary mb-3" href="{{ route('student.create') }}" role="button">Create Student</a>
 
-    <ul class="list-group">
+    <table class="table table-bordered border-dark table-hover mb-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Nim</th>
+                <th scope="col">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        @foreach ($students as $student)
-            <li class="list-group-item">{{ $loop->iteration }}. {{ $student->nim }} -- {{ $student->name }}</li>
-        @endforeach
-
-
-    </ul>
+            @foreach ($students as $student)
+                <tr>
+                    <th scope="row">{{ $loop->iteration }}</th>
+                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->nim }}</td>
+                    <td></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 </x-App>
