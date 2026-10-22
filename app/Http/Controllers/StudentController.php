@@ -49,7 +49,8 @@ class StudentController extends Controller
     
  
    Student::create($validated);
-   return redirect('/student');
+   return to_route('student.index')->withSuccess('Data Berhasil Di Tambahkan');
+
     }
 
     /**
@@ -57,7 +58,7 @@ class StudentController extends Controller
      */
     public function show(student $student)
     {
-        //
+        // dd($student);
     }
 
     /**
@@ -65,7 +66,10 @@ class StudentController extends Controller
      */
     public function edit(student $student)
     {
-        //
+             return view('student.edit', [
+        'title' => 'Edit Student',
+        'student' => $student,
+        ]);
     }
 
     /**
@@ -73,7 +77,22 @@ class StudentController extends Controller
      */
     public function update(Request $request, student $student)
     {
-        //
+        $validated = $request->validate([
+        'name' =>'required' ,
+        'nim' => 'required|numeric|digits:12',
+    ],
+    
+    [
+    'name.required'=> 'Nama wajib di input',
+    'nim.required'=> 'Nama wajib di input',
+    'nim.numeric'=> 'NIM wajib berupa angka',
+    'nim.digits'=> 'NIM wajib 12 digit',
+    ]
+
+    );
+    
+   $student->update($validated);
+   return to_route('student.index')->withSuccess('Data Berhasil Di Ubah');
     }
 
     /**
@@ -81,6 +100,7 @@ class StudentController extends Controller
      */
     public function destroy(student $student)
     {
-        // 
+        $student->delete();
+   return to_route('student.index')->withSuccess('Data Berhasil Di Hapus'); 
     }
 }
