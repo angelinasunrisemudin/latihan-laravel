@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\Lecturer;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,10 @@ class LecturerController extends Controller
      */
     public function create()
     {
-        //
+           return view('lecturer.create', [
+        'title' => 'Create lecturer',
+        'departments' => Department::latest()->get(),
+        ]);
     }
 
     /**
@@ -31,7 +35,23 @@ class LecturerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+  $validated = $request->validate([
+        'name' =>'required' ,
+        'department_id' => 'required',
+    ],
+    
+    [
+    'name.required'=> 'Nama wajib di input',
+    'department_id.required'=> 'Program Studi Wajib dipilih',
+    ]
+
+    );
+    
+ 
+   Lecturer::create($validated);
+   return to_route('lecturer.index')->withSuccess('Data Berhasil Di Tambahkan');
+
     }
 
     /**
@@ -47,7 +67,11 @@ class LecturerController extends Controller
      */
     public function edit(Lecturer $lecturer)
     {
-        //
+             return view('lecturer.edit', [
+        'title' => 'Edit lecturer',
+        'departments' => Department::latest()->get(),
+        'lecturer' => $lecturer,
+        ]);
     }
 
     /**
@@ -55,7 +79,21 @@ class LecturerController extends Controller
      */
     public function update(Request $request, Lecturer $lecturer)
     {
-        //
+        $validated = $request->validate([
+        'name' =>'required' ,
+        'department_id' => 'required',
+    ],
+    
+    [
+    'name.required'=> 'Nama wajib di input',
+    'department_id.required'=> 'Program Studi Wajib dipilih',
+    ]
+
+    );
+    
+ 
+   $lecturer->update($validated);
+   return to_route('lecturer.index')->withSuccess('Data Berhasil Di Ubah');
     }
 
     /**
@@ -63,6 +101,7 @@ class LecturerController extends Controller
      */
     public function destroy(Lecturer $lecturer)
     {
-        //
+        $lecturer->delete();
+        return to_route('lecturer.index')->withSuccess('Data Berhasil Di Hapus');
     }
 }

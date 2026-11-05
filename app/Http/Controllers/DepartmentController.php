@@ -23,7 +23,9 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('department.create', [
+            'title' => 'Create Department'
+        ]);
     }
 
     /**
@@ -31,7 +33,15 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required'
+        ], [
+            'name.required' => 'Nama jurusan wajib diisi'
+        ]);
+
+    
+        Department::create($validated);
+        return to_route('department.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -39,7 +49,10 @@ class DepartmentController extends Controller
      */
     public function show(Department $department)
     {
-        //
+           return view('department.show', [
+        'title' => ' detail department ' . $department->name ,
+        'department' => $department,
+        ]);
     }
 
     /**
@@ -47,7 +60,10 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        return view('department.edit', [
+        'title' => 'Edit Department',
+        'department' => $department
+    ]);
     }
 
     /**
@@ -55,7 +71,14 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'required'
+    ], [
+        'name.required' => 'Nama jurusan wajib diisi'
+    ]);
+
+    $department->update($validated);
+    return to_route('department.index')->with('success', 'Data Berhasil Di Ubah');
     }
 
     /**
@@ -63,6 +86,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+         $department->delete();
+        return to_route('department.index')->withSuccess('Data Berhasil Di Hapus');
     }
 }

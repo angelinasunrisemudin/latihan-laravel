@@ -25,18 +25,18 @@
                 <tr>
                     <th scope="row">{{ $loop->iteration }}</th>
                     <td>{{ $lecturer->name }}</td>
-                    <td>{{ $lecturer->Department->name }}</td>
+                    <td>{{ $lecturer->department->name }}</td>
+
+                    <!-- TAMBAHKAN KOLOM INI AGAR TOMBOLNYA MUNCUL DI TABEL -->
                     <td>
                         <a class="btn btn-warning" href="{{ route('lecturer.edit', $lecturer) }}"
                             role="button">Edit</a>
-
 
                         <form method="POST" action="{{ route('lecturer.destroy', $lecturer) }}" class="d-inline">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-danger"
                                 onclick="return confirm('Are you sure?')">Delete</button>
-
                         </form>
                     </td>
                 </tr>

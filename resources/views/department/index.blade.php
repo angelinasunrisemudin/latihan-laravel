@@ -27,7 +27,9 @@
                     <td>{{ $department->name }}</td>
                     <td>{{ $department->nim }}</td>
                     <td>
-                        <a button class="btn btn-warning" href="{{ route('department.edit', $department) }}"
+                        <a class="btn btn-info" href="{{ route('department.show', $department) }}"
+                            role="button">detail</a>
+                        <a class="btn btn-warning" href="{{ route('department.edit', $department) }}"
                             role="button">Edit</a>
 
 
