@@ -2,9 +2,7 @@
 
     <x-slot:title>{{ $title }}</x-slot>
 
-
-
-    <form method="POST" action="{{ route('lecturer.store') }}">
+    <form method="POST" action="{{ route('lecturer.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
@@ -17,6 +15,17 @@
         </div>
 
         <div class="mb-3">
+            <label for="avatar" class="form-label">Upload avatar</label>
+            <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="upload"
+                name="avatar">
+            @error('avatar')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
+            <img src="{{ asset('images/no_profil.jpg') }}" alt="" class="w-25 rounded mt-2" id="preview">
+        </div>
+
+        <div class="mb-3">
             <label for="department_id" class="form-label">department</label>
             <select class="form-select @error('department_id') is-invalid @enderror" name="department_id"
                 id="department_id">
@@ -25,13 +34,11 @@
                     <option value="{{ $department->id }}" @selected(old('department_id') == $department->id)>
                         {{ $department->name }}</option>
                 @endforeach
-
             </select>
 
-            @error('departemen_id')
+            @error('department_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
-
         </div>
 
         <a class="btn btn-warning" href="{{ route('lecturer.index') }}" role="button">Back</a>
